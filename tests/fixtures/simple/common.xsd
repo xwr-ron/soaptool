@@ -1,0 +1,22 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:req="http://example.com/request"
+            targetNamespace="http://example.com/request"
+            elementFormDefault="qualified">
+  <xsd:complexType name="PointOfSaleType">
+    <xsd:sequence>
+      <xsd:element name="Agent" type="xsd:string"/>
+      <xsd:group ref="req:ContactGroup"/>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="req:MetaAttrs"/>
+  </xsd:complexType>
+
+  <xsd:group name="ContactGroup">
+    <xsd:sequence>
+      <xsd:element name="Email" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:group>
+
+  <xsd:attributeGroup name="MetaAttrs">
+    <xsd:attribute name="version" type="xsd:string"/>
+  </xsd:attributeGroup>
+</xsd:schema>

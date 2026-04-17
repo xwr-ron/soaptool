@@ -1,0 +1,54 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:tns="http://example.com/contract"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:req="http://example.com/request"
+             targetNamespace="http://example.com/contract">
+  <types>
+    <xsd:schema targetNamespace="http://example.com/request" elementFormDefault="qualified">
+      <xsd:include schemaLocation="common.xsd"/>
+      <xsd:element name="SearchFlightsRQ" type="req:SearchFlightsRQType"/>
+      <xsd:complexType name="SearchFlightsRQType">
+        <xsd:sequence>
+          <xsd:element name="PointOfSale" type="req:PointOfSaleType"/>
+          <xsd:element name="Party" type="req:PartyType" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="PartyType">
+        <xsd:sequence>
+          <xsd:element name="Sender" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+
+  <message name="SearchFlightsRequest">
+    <part name="parameters" element="req:SearchFlightsRQ"/>
+  </message>
+
+  <message name="SearchFlightsResponse">
+    <part name="parameters" element="req:SearchFlightsRQ"/>
+  </message>
+
+  <portType name="FlightPortType">
+    <operation name="SearchFlights">
+      <input message="tns:SearchFlightsRequest"/>
+      <output message="tns:SearchFlightsResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="FlightBinding" type="tns:FlightPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="SearchFlights">
+      <soap:operation soapAction="http://example.com/SearchFlights"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+
+  <service name="FlightService">
+    <port name="FlightPort" binding="tns:FlightBinding">
+      <soap:address location="https://example.com/soap"/>
+    </port>
+  </service>
+</definitions>
